@@ -1,9 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from group import Group
 
@@ -13,6 +8,9 @@ class TestAddGroup(unittest.TestCase):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(5)
 
+    def open_home_page(self, wd):
+        wd.get("http://localhost/addressbook/")
+
     def login(self, wd, username, password):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
@@ -21,9 +19,6 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_css_selector("input[type=\"submit\"]").click()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
 
     def open_groups_page(self, wd):
         wd.find_element_by_link_text("groups").click()
