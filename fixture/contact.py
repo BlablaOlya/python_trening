@@ -15,7 +15,8 @@ class ContactHelper:
         self.open_contacts_page()
         self.fill_contact_form(contact)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-        self.return_to_home_page()
+        self.app.open_home_page()
+        # self.return_to_home_page()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -60,12 +61,12 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        self.return_to_home_page()
+        self.app.open_home_page()
         self.select_first_contact()
         wd.find_element_by_xpath("//input[contains(@value,'Delete')]").click()
         wd.switch_to_alert().accept()
         wd.find_element_by_xpath("//input[contains(@value,'Delete')]")
-        self.return_to_home_page()
+        # self.app.open_home_page()
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -73,7 +74,7 @@ class ContactHelper:
 
     def modify_first_contact(self, new_group_data):
         wd = self.app.wd
-        self.return_to_home_page()
+        self.app.open_home_page()
         self.select_first_contact()
         # open modification form
         wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
@@ -81,7 +82,7 @@ class ContactHelper:
         self.fill_contact_form(new_group_data)
         # submit modification
         wd.find_element_by_name("update").click()
-        self.return_to_home_page()
+        # self.app.open_home_page()
 
     def return_to_home_page(self):
         wd = self.app.wd
