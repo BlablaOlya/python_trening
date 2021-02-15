@@ -8,11 +8,13 @@ class ContactHelper:
 
     def open_contacts_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_name("add")) > 0):
+            wd.find_element_by_xpath("//a[contains(text(),'home')]").click()
 
     def create(self, contact):
         wd = self.app.wd
         self.open_contacts_page()
+        wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.app.open_home_page()
@@ -46,6 +48,8 @@ class ContactHelper:
         self.change_field_value("notes", contact.notes)
         self.change_calendar_value("new_group", contact.new_group)
 
+
+
     def change_calendar_value(self, par, text):
         wd = self.app.wd
         if text is not None:
@@ -61,11 +65,11 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_first_contact()
         wd.find_element_by_xpath("//input[contains(@value,'Delete')]").click()
-        wd.switch_to_alert().accept()
-        wd.find_element_by_xpath("//input[contains(@value,'Delete')]")
+        # wd.switch_to_alert().accept()
+        # wd.find_element_by_xpath("//input[contains(@value,'Delete')]")
         # self.app.open_home_page()
 
     def select_first_contact(self):
@@ -74,7 +78,7 @@ class ContactHelper:
 
     def modify_first_contact(self, new_group_data):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         self.select_first_contact()
         # open modification form
         wd.find_element_by_css_selector("img[alt=\"Edit\"]").click()
@@ -84,11 +88,11 @@ class ContactHelper:
         wd.find_element_by_name("update").click()
         # self.app.open_home_page()
 
-    def return_to_home_page(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+    # def return_to_home_page(self):
+    #     wd = self.app.wd
+    #     wd.find_element_by_link_text("home").click()
 
     def count(self):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.open_contacts_page()
         return len(wd.find_elements_by_name("selected[]"))
